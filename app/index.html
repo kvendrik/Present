@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>#*@(!% is dit nou weer voor?</title>
+
+	<link rel="stylesheet" type="text/css" href="css/main.css" />
+
+  <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="fonts/ss-pika/ss-pika.css" />
+</head>
+<body>
+
+<section class="slide accent-bg intro">
+
+  <h1>#*@(!%</h1>
+  <h2>Is dit nou weer voor?</h2>
+  <span>(web, client-side)</span>
+
+</section>
+
+<section class="slide">
+
+  <article class="column half">
+    <h2>Client</h2>
+    <h5 class="step">In geval van browser omgeving</h5>
+    <ul>
+      <li class="step">HTML</li>
+      <li class="step">CSS</li>
+      <li class="step">JavaScript</li>
+    </ul>
+  </article>
+
+  <article class="column half">
+    <h2 class="step">Server</h2>
+    <h5 class="step">Populaire voorbeelden</h5>
+    <ul>
+      <li class="step">Nodejs</li>
+      <li class="step">PHP</li>
+      <li class="step">Ruby</li>
+      <li class="step">Python</li>
+      <li class="step">Java</li>
+      <li class="step">.NET</li>
+    </ul>
+  </article>
+
+</section>
+
+<section class="slide">
+
+    <h2>Pre-compiling</h2>
+    <h5 class="subtitle">Compiling = omzetten van de ene naar de andere taal</h5>
+    <ul>
+      <li class="step">HTML</li>
+        <ul>
+          <li class="step">Jade</li>
+          <li class="step">HAML</li>
+        </ul>
+    </ul>
+
+</section>
+
+<section class="slide">
+
+    <h2>Jade</h2>
+    <h5 class="subtitle">Compiled naar HTML</h5>
+
+    <article class="column half step">
+      <h4>Jade</h4>
+      <pre>
+doctype html
+html(lang="en")
+  head
+    title='#*@(!% is dit nou weer voor?'
+  body
+    h1 Jade - node template engine
+    #container.col
+      p.
+        Jade is a terse and simple
+        templating language with a
+        strong focus on performance
+        and powerful features.
+      </pre>
+    </article>
+
+    <article class="column half step">
+      <h4>HTML</h4>
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&amp;&gt;
+  &lt;head&gt;
+    &lt;title&gt;#*@(!% is dit nou weer voor?&lt;/title&amp;&gt;
+  &lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Jade - node template engine&lt;/h1&gt;
+  &lt;div id=&quot;container&quot; class=&quot;col&quot;&gt;
+    &lt;p&gt;Jade is a terse and simple templating language with a strong focus on performance and powerful features.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+    </article>
+</section>
+
+<section class="slide">
+
+    <h2>Pre-compiling</h2>
+    <h5 class="subtitle">Compiling = omzetten van de ene naar de andere taal</h5>
+    <ul>
+      <li>HTML</li>
+        <ul>
+          <li>Jade</li>
+          <li>HAML</li>
+        </ul>
+      <li class="step">CSS</li>
+        <ul>
+          <li class="step">SASS</li>
+          <li class="step">LESS</li>
+          <li class="step">Stylus</li>
+        </ul>
+    </ul>
+
+</section>
+
+<section class="slide">
+
+    <h2>SASS</h2>
+    <h5 class="subtitle">Compiled naar CSS</h5>
+
+    <article class="column half step">
+      <h4>SCSS</h4>
+      <pre>
+$margin-s: 10px;
+
+body {
+ background: darken(#ef545c, 5%);
+}
+
+.container {
+  width: 960px;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  margin-bottom: $margin-s;
+}
+
+ul {
+  li {
+    margin-bottom: $margin-s;
+  }
+}
+      </pre>
+    </article>
+
+    <article class="column half step">
+      <h4>CSS</h4>
+<pre>
+body {
+  background: #ed3d46;
+}
+
+.container {
+  width: 960px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 10px;
+}
+
+ul li {
+  margin-bottom: 10px;
+}
+</pre>
+    </article>
+
+</section>
+
+<section class="slide">
+
+    <h2>Pre-compiling</h2>
+    <h5 class="subtitle">Compiling = omzetten van de ene naar de andere taal</h5>
+    <ul>
+      <li>HTML</li>
+        <ul>
+          <li>Jade</li>
+          <li>HAML</li>
+        </ul>
+      <li>CSS</li>
+        <ul>
+          <li>SASS</li>
+          <li>LESS</li>
+          <li>Stylus</li>
+        </ul>
+      <li class="step">JS</li>
+        <ul>
+          <li class="step">Coffeescript</li>
+        </ul>
+    </ul>
+
+</section>
+
+<section class="slide">
+
+    <h2>Coffeescript</h2>
+    <h5 class="subtitle">Compiled naar JS</h5>
+
+    <article class="column half step">
+      <h4>Coffeescript</h4>
+      <pre>
+person =
+   name: 'Jane'
+   age: 21
+   city: 'Nijmegen'
+
+number = 42
+
+add = (x,y) -> x * y
+
+console.log("Hi "+person.name) if person.name?
+      </pre>
+    </article>
+
+    <article class="column half step">
+      <h4>JS</h4>
+<pre>
+var add, number, person;
+
+person = {
+  name: 'Jane',
+  age: 21,
+  city: 'Nijmegen'
+};
+
+number = 42;
+
+add = function(x, y) {
+  return x * y;
+};
+
+if (person.name != null) {
+  console.log("Hi " + person.name);
+}
+</pre>
+    </article>
+
+</section>
+
+<section class="slide">
+
+    <h2>Wrap!</h2>
+    <h5 class="subtitle">Tot zover de client-side talen</h5>
+    <ul>
+      <li>HTML</li>
+        <ul>
+          <li>Jade</li>
+          <li>HAML</li>
+        </ul>
+      <li>CSS</li>
+        <ul>
+          <li>SASS</li>
+          <li>LESS</li>
+          <li>Stylus</li>
+        </ul>
+      <li>JS</li>
+        <ul>
+          <li>Coffeescript</li>
+        </ul>
+    </ul>
+
+</section>
+
+<script src="js/app.min.js"></script>
+</body>
+</html>
