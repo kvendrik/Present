@@ -26,3 +26,9 @@ Present uses [grunt](http://gruntjs.com/) for its server, compiling SASS and con
 * `main.scss` contains the core styles
 * `theme.scss` contains styling for the theme
 * `slides.scss` contains styling for specific slides
+
+#### Hotlinking
+You can link to a specific slide and step by specifing them in the URL.
+```
+#slide-4&step-2
+```
