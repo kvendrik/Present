@@ -80,12 +80,7 @@
         return prevSlideIdx;
       },
 
-      goToHash = function(hash){
-
-        var slideIdx = Number(hash.match(/slide\-(\d+)/)[1])-1,
-
-            stepMatch = hash.match(/step\-(\d+)/),
-            stepIdx = stepMatch ? Number(stepMatch[1])-1 : undefined;
+      goToState = function(slideIdx, stepIdx){
 
         switchSlide(currSlideIdx, slideIdx);
         if(stepIdx !== undefined) makeStepsVisible(slideIdx, stepIdx);
@@ -99,12 +94,31 @@
   //and go to slideIdx and stepIdx
   if(location.hash !== ''){
 
-    goToHash(location.hash);
+    var hash = location.hash,
+        slideIdx = Number(hash.match(/slide\-(\d+)/)[1])-1,
+
+        stepMatch = hash.match(/step\-(\d+)/),
+        stepIdx = stepMatch ? Number(stepMatch[1])-1 : undefined;
+
+    goToState(slideIdx, stepIdx);
 
   } else {
     //make first slide visible
     B(slides[currSlideIdx]).addClass('visible');
   }
+
+  //listen for back or forward button on browser
+  window.addEventListener('popstate', function(e){
+
+    var state = e.state;
+
+    if(state !== null) {
+      goToState(state[0]-1, state[1]-1);
+    } else {
+      goToState(0,0);
+    }
+
+  });
 
   document.addEventListener('keyup', function(e){
 
