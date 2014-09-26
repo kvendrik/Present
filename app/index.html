@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>#*@(!% is dit nou weer voor?</title>
+	<title>A front-ender's automated workflow</title>
 
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
 
@@ -13,259 +13,231 @@
 
 <section class="slide accent-bg intro">
 
-  <h1>#*@(!%</h1>
-  <h2>Is dit nou weer voor?</h2>
-  <span>(web, client-side)</span>
+  <div class="logo"><img src="assets/img/grunt-logo.svg" /></div>
+  <h4>a front-ender's</h4>
+  <h1>automated<br>workflow</h1>
+  <h5>using Node and Grunt</h5>
 
 </section>
 
 <section class="slide">
 
-  <article class="column half">
-    <h2>Client</h2>
-    <h5 class="step">In geval van browser omgeving</h5>
-    <ul>
-      <li class="step">HTML</li>
-      <li class="step">CSS</li>
-      <li class="step">JavaScript</li>
-    </ul>
-  </article>
-
-  <article class="column half">
-    <h2 class="step">Server</h2>
-    <h5 class="step">Populaire voorbeelden</h5>
-    <ul>
-      <li class="step">Nodejs</li>
-      <li class="step">PHP</li>
-      <li class="step">Ruby</li>
-      <li class="step">Python</li>
-      <li class="step">Java</li>
-      <li class="step">.NET</li>
-    </ul>
-  </article>
+  <h2>Waarom?</h2>
+  <h5 class="subtitle">Grunt</h5>
+  <ol>
+    <li class="step">Geen 100 programma's met verschillende functies</li>
+    <li class="step">Makkelijke opzet voor andere devs</li>
+    <li class="step">Zeer makkelijk uitbreidbaar</li>
+  </ol>
 
 </section>
 
 <section class="slide">
 
-    <h2>Pre-compiling</h2>
-    <h5 class="subtitle">Compiling = omzetten van de ene naar de andere taal</h5>
-    <ul>
-      <li class="step">HTML</li>
-        <ul>
-          <li class="step">Jade</li>
-          <li class="step">HAML</li>
-        </ul>
-    </ul>
+  <h2>Hoe?</h2>
+  <h5 class="subtitle">3 Delen</h5>
+  <ol>
+    <li class="step"><code>package.json</code></li>
+  </ol>
 
 </section>
 
 <section class="slide">
 
-    <h2>Jade</h2>
-    <h5 class="subtitle">Compiled naar HTML</h5>
-
-    <article class="column half step">
-      <h4>Jade</h4>
-      <pre>
-doctype html
-html(lang="en")
-  head
-    title='#*@(!% is dit nou weer voor?'
-  body
-    h1 Jade - node template engine
-    #container.col
-      p.
-        Jade is a terse and simple
-        templating language with a
-        strong focus on performance
-        and powerful features.
-      </pre>
-    </article>
-
-    <article class="column half step">
-      <h4>HTML</h4>
-<pre>
-&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&amp;&gt;
-  &lt;head&gt;
-    &lt;title&gt;#*@(!% is dit nou weer voor?&lt;/title&amp;&gt;
-  &lt;/head&gt;
-&lt;body&gt;
-  &lt;h1&gt;Jade - node template engine&lt;/h1&gt;
-  &lt;div id=&quot;container&quot; class=&quot;col&quot;&gt;
-    &lt;p&gt;Jade is a terse and simple templating language with a strong focus on performance and powerful features.&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</pre>
-    </article>
-</section>
-
-<section class="slide">
-
-    <h2>Pre-compiling</h2>
-    <h5 class="subtitle">Compiling = omzetten van de ene naar de andere taal</h5>
-    <ul>
-      <li>HTML</li>
-        <ul>
-          <li>Jade</li>
-          <li>HAML</li>
-        </ul>
-      <li class="step">CSS</li>
-        <ul>
-          <li class="step">SASS</li>
-          <li class="step">LESS</li>
-          <li class="step">Stylus</li>
-        </ul>
-    </ul>
+  <h2>Package.json</h2>
+  <h5 class="subtitle">Project informatie</h5>
+<pre class="step">{
+  "name": "",
+  "version": "1.0.0",
+  "description": "",
+  "main": "GruntFile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.4",
+    "grunt-contrib-concat": "~0.4.0",
+    "grunt-contrib-connect": "~0.7.1",
+    "grunt-contrib-sass": "~0.7.3",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-open": "~0.2.3",
+    "load-grunt-tasks": "~0.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Koen Vendrik",
+  "license": "BSD 2-Clause"
+}</pre>
 
 </section>
 
 <section class="slide">
 
-    <h2>SASS</h2>
-    <h5 class="subtitle">Compiled naar CSS</h5>
+  <h2>Hoe?</h2>
+  <h5 class="subtitle">3 Delen</h5>
+  <ol>
+    <li><code>package.json</code></li>
+    <li class="step"><code>GruntFile.js</code></li>
+  </ol>
 
-    <article class="column half step">
-      <h4>SCSS</h4>
-      <pre>
-$margin-s: 10px;
+</section>
 
-body {
- background: darken(#ef545c, 5%);
-}
+<section class="slide">
 
-.container {
-  width: 960px;
-}
+  <h2>GruntFile.js</h2>
+  <h5 class="subtitle">De settings</h5>
+<pre class="step">
+module.exports = function (grunt){
 
-h1,h2,h3,h4,h5,h6 {
-  margin-bottom: $margin-s;
-}
+     grunt.initConfig({
 
-ul {
-  li {
-    margin-bottom: $margin-s;
-  }
-}
-      </pre>
-    </article>
+        pkg: grunt.file.readJSON('package.json'),
+        appRoot: 'app',
 
-    <article class="column half step">
-      <h4>CSS</h4>
-<pre>
-body {
-  background: #ed3d46;
-}
+        connect: {
+          server: {
+            options: {
+              livereload: true,
+              hostname: '127.0.0.1',
+              port: 9000,
+              base: '<%= appRoot %>/'
+            }
+          }
+        },
 
-.container {
-  width: 960px;
-}
+        open: {
+          all: {
+            path: 'http://localhost:<%= connect.server.options.port %>'
+          }
+        },
 
-h1, h2, h3, h4, h5, h6 {
-  margin-bottom: 10px;
-}
+        watch: {
+          options: {
+              livereload: true,
+          },
+            html: {
+            files: ['<%= appRoot %>/*.html']
+            },
+            js: {
+              files: ['<%= appRoot %>/js/src/*.js'],
+              tasks: ['concat']
+            },
+            sass: {
+              files: ['<%= appRoot %>/sass/*.scss'],
+              tasks: ['sass']
+            }
+        },
 
-ul li {
-  margin-bottom: 10px;
+        sass: {
+          dist: {
+            files: {
+              '<%= appRoot %>/css/main.css': '<%= appRoot %>/sass/main.scss'
+            }
+          }
+        },
+
+        concat: {
+          options: {
+            separator: '\n\n',
+          },
+          js: {
+            src: ['<%= appRoot %>/fonts/ss-pika/ss-pika.js',
+            '<%= appRoot %>/js/libs/*.js',
+            '<%= appRoot %>/js/src/*.js'],
+            dest: '<%= appRoot %>/js/app.js'
+          }
+        },
+
+        uglify: {
+          js: {
+            files: {
+              '<%= appRoot %>/js/app.min.js': ['<%= appRoot %>/fonts/ss-pika/ss-pika.js',
+              '<%= appRoot %>/js/libs/*.js',
+              '<%= appRoot %>/js/src/*.js']
+            }
+          }
+        }
+
+     });
+
+     require('load-grunt-tasks')(grunt);
+
+     grunt.registerTask('serve', ['connect', 'open', 'watch']);
+     grunt.registerTask('build', ['sass', 'uglify']);
 }
 </pre>
-    </article>
 
 </section>
 
 <section class="slide">
 
-    <h2>Pre-compiling</h2>
-    <h5 class="subtitle">Compiling = omzetten van de ene naar de andere taal</h5>
-    <ul>
-      <li>HTML</li>
-        <ul>
-          <li>Jade</li>
-          <li>HAML</li>
-        </ul>
-      <li>CSS</li>
-        <ul>
-          <li>SASS</li>
-          <li>LESS</li>
-          <li>Stylus</li>
-        </ul>
-      <li class="step">JS</li>
-        <ul>
-          <li class="step">Coffeescript</li>
-        </ul>
-    </ul>
+  <h2>Hoe?</h2>
+  <h5 class="subtitle">3 Delen</h5>
+  <ol>
+    <li><code>package.json</code></li>
+    <li><code>GruntFile.js</code></li>
+    <li class="step"><code>node_modules/</code></li>
+  </ol>
 
 </section>
 
 <section class="slide">
 
-    <h2>Coffeescript</h2>
-    <h5 class="subtitle">Compiled naar JS</h5>
-
-    <article class="column half step">
-      <h4>Coffeescript</h4>
-      <pre>
-person =
-   name: 'Jane'
-   age: 21
-   city: 'Nijmegen'
-
-number = 42
-
-add = (x,y) -> x * y
-
-console.log("Hi "+person.name) if person.name?
-      </pre>
-    </article>
-
-    <article class="column half step">
-      <h4>JS</h4>
-<pre>
-var add, number, person;
-
-person = {
-  name: 'Jane',
-  age: 21,
-  city: 'Nijmegen'
-};
-
-number = 42;
-
-add = function(x, y) {
-  return x * y;
-};
-
-if (person.name != null) {
-  console.log("Hi " + person.name);
-}
+  <h2>node_modules/</h2>
+  <h5 class="subtitle">Map</h5>
+<pre class="step">
+node_modules/
+  grunt/
+  grunt-contrib-connect/
+  grunt-open/
+  grunt-contrib-sass/
+  grunt-contrib-watch/
 </pre>
-    </article>
 
 </section>
 
 <section class="slide">
 
-    <h2>Wrap!</h2>
-    <h5 class="subtitle">Tot zover de client-side talen</h5>
-    <ul>
-      <li>HTML</li>
-        <ul>
-          <li>Jade</li>
-          <li>HAML</li>
-        </ul>
-      <li>CSS</li>
-        <ul>
-          <li>SASS</li>
-          <li>LESS</li>
-          <li>Stylus</li>
-        </ul>
-      <li>JS</li>
-        <ul>
-          <li>Coffeescript</li>
-        </ul>
-    </ul>
+  <h2>Installatie</h2>
+  <h5 class="subtitle">Globaal op je PC</h5>
+  <ul>
+    <li class="step"><code><a href="http://nodejs.org/">Node</a></code><br><small>Voor NPM - http://nodejs.org/</small></li>
+    <li class="step"><code>Grunt-cli</code><br><small>Voor de grunt command - <code>npm install -g grunt-cli</code></small></li>
+  </ul>
+
+</section>
+
+<section class="slide">
+
+  <h2>Het gebruikelijke</h2>
+  <h5 class="subtitle">Ons project</h5>
+  <ol>
+    <li class="step">De map - <code>cd ~/Desktop && mkdir presentatie-project && cd presentatie-project</code></li>
+    <li class="step">Package.json - <code>npm init</code></li>
+    <li class="step">GruntFile.js - <code>curl http://kvendrik.com/presentatie-grunt/GruntFile.js > GruntFile.js</code></li>
+    <li class="step">node_modules/ - <code>npm install</code></li>
+  </ol>
+
+</section>
+
+<section class="slide">
+
+  <h2>Let's give it a shot</h2>
+  <h5 class="subtitle">Werken aan ons project</h5>
+  <ol>
+    <li class="step"><code>curl http://kvendrik.com/presentatie-grunt/grunt-voorbeeld.html > index.html</code></li>
+    <li class="step"><code>mkdir sass && mkdir css</code></li>
+    <li class="step"><code>cd sass && touch main.scss</code></li>
+    <li class="step"><code>grunt serve</code></li>
+  </ol>
+
+</section>
+
+<section class="slide outro">
+
+  <h1>Grunt</h1>
+  <h2 class="subtitle">It's like magic!</h2>
+  <div class="logo"><img src="assets/img/grunt-logo.svg" /></div>
 
 </section>
 

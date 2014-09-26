@@ -1,13 +1,22 @@
-.intro {
+.intro, .outro {
 	text-align: center;
 	padding-top: 140px;
+
+	.logo {
+		width: 960px;
+
+		position: absolute;
+		left: -400px;
+		top: -100px;
+		opacity: $opacity;
+	}
 
 	h1,h2 {
 		border: none;
 	}
 
 	h1 {
-		font-size: 6em;
+		font-size: 4em;
 	}
 
 	h2 {

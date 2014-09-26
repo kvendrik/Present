@@ -1,13 +1,14 @@
-$base-color: #222;
+$base-color: #453015;
 $white: #fff;
 
-$accent: #C22647;
+$accent: #fba919;
+$accent-dark: darken($accent, 5%);
 
 $body-family: 'Lato';
 $body-weight: 300;
 $body-line-height: 1.5em;
 
-$heading-weight: 300;
+$heading-weight: 500;
 $heading-line-height: 1.3em;
 
 $size-s: .9em;
@@ -18,20 +19,38 @@ $margin-s: 10px;
 $margin-m: 20px;
 $margin-l: 40px;
 
+$padding-m: $margin-m $margin-m+5;
+
 $border-style: solid;
 $border-width: 1px;
+$border-radius: 3px;
+
+$opacity: .8;
 
 ////////////
 
 body {
 	font: $body-weight $size-m $body-family;
-	color: $white;
+	color: $base-color;
 	background-color: $accent;
 	line-height: $body-line-height;
 }
 
-p,img,ul,ol {
+p,img,ul,ol,img {
 	margin-bottom: $margin-m;
+}
+
+a {
+	color: $base-color;
+	border-bottom: $border-style $border-width;
+}
+
+small {
+	font-size: $size-s;
+}
+
+img {
+	width: 100%;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -69,8 +88,11 @@ h6 {
 	font-size: 1.1em;
 }
 
-ul {
+ul,ol {
 	margin-left: 20px;
+}
+
+ul {
 
 	li {
 		list-style-type: square;
@@ -87,22 +109,29 @@ ul {
 }
 
 pre {
-	width: 100%;
 	overflow-x: auto;
+	display: inline-block;
+
+	padding: $padding-m;
+
+	background-color: $accent-dark;
+	border-radius: $border-radius;
 }
 
 .column {
 	overflow: hidden;
 
-	&.half {
-		width: 46%;
+	&.half,&.one-third {
 		float: left;
 		padding-left: 2%;
 		padding-right: 2%;
 	}
 
+	&.half {
+		width: 46%;
+	}
+
 	&.one-third {
-		width: 33%;
-		float: left;
+		width: 29%;
 	}
 }
