@@ -2,245 +2,304 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>A front-ender's automated workflow</title>
+	<title>A brief introduction to Web Workers</title>
 
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
 
-  <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="fonts/museo/stylesheet.css" />
   <link rel="stylesheet" type="text/css" href="fonts/ss-pika/ss-pika.css" />
+
+  <script src="//use.typekit.net/nfz7sqg.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+
+  <link rel="stylesheet" type="text/css" href="js/libs/prism/prism.css" />
 </head>
 <body>
 
-<section class="slide accent-bg intro">
-
-  <div class="logo"><img src="assets/img/grunt-logo.svg" /></div>
-  <h4>a front-ender's</h4>
-  <h1>automated<br>workflow</h1>
-  <h5>using Node and Grunt</h5>
-
+<section class="slide intro">
+  <h3>A brief introduction to</h3>
+  <h1>Web Workers</h1>
 </section>
 
-<section class="slide">
-
-  <h2>Waarom?</h2>
-  <h5 class="subtitle">Grunt</h5>
-  <ol>
-    <li class="step">Geen 100 programma's met verschillende functies</li>
-    <li class="step">Makkelijke opzet voor andere devs</li>
-    <li class="step">Zeer makkelijk uitbreidbaar</li>
-  </ol>
-
-</section>
-
-<section class="slide">
-
-  <h2>Hoe?</h2>
-  <h5 class="subtitle">3 Delen</h5>
-  <ol>
-    <li class="step"><code>package.json</code></li>
-  </ol>
-
-</section>
-
-<section class="slide">
-
-  <h2>Package.json</h2>
-  <h5 class="subtitle">Project informatie</h5>
-<pre class="step">{
-  "name": "",
-  "version": "1.0.0",
-  "description": "",
-  "main": "GruntFile.js",
-  "dependencies": {},
-  "devDependencies": {
-    "grunt": "~0.4.4",
-    "grunt-contrib-concat": "~0.4.0",
-    "grunt-contrib-connect": "~0.7.1",
-    "grunt-contrib-sass": "~0.7.3",
-    "grunt-contrib-uglify": "~0.4.0",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-open": "~0.2.3",
-    "load-grunt-tasks": "~0.4.0"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Koen Vendrik",
-  "license": "BSD 2-Clause"
-}</pre>
-
-</section>
-
-<section class="slide">
-
-  <h2>Hoe?</h2>
-  <h5 class="subtitle">3 Delen</h5>
-  <ol>
-    <li><code>package.json</code></li>
-    <li class="step"><code>GruntFile.js</code></li>
-  </ol>
-
-</section>
-
-<section class="slide">
-
-  <h2>GruntFile.js</h2>
-  <h5 class="subtitle">De settings</h5>
-<pre class="step">
-module.exports = function (grunt){
-
-     grunt.initConfig({
-
-        pkg: grunt.file.readJSON('package.json'),
-        appRoot: 'app',
-
-        connect: {
-          server: {
-            options: {
-              livereload: true,
-              hostname: '127.0.0.1',
-              port: 9000,
-              base: '<%= appRoot %>/'
-            }
-          }
-        },
-
-        open: {
-          all: {
-            path: 'http://localhost:<%= connect.server.options.port %>'
-          }
-        },
-
-        watch: {
-          options: {
-              livereload: true,
-          },
-            html: {
-            files: ['<%= appRoot %>/*.html']
-            },
-            js: {
-              files: ['<%= appRoot %>/js/src/*.js'],
-              tasks: ['concat']
-            },
-            sass: {
-              files: ['<%= appRoot %>/sass/*.scss'],
-              tasks: ['sass']
-            }
-        },
-
-        sass: {
-          dist: {
-            files: {
-              '<%= appRoot %>/css/main.css': '<%= appRoot %>/sass/main.scss'
-            }
-          }
-        },
-
-        concat: {
-          options: {
-            separator: '\n\n',
-          },
-          js: {
-            src: ['<%= appRoot %>/fonts/ss-pika/ss-pika.js',
-            '<%= appRoot %>/js/libs/*.js',
-            '<%= appRoot %>/js/src/*.js'],
-            dest: '<%= appRoot %>/js/app.js'
-          }
-        },
-
-        uglify: {
-          js: {
-            files: {
-              '<%= appRoot %>/js/app.min.js': ['<%= appRoot %>/fonts/ss-pika/ss-pika.js',
-              '<%= appRoot %>/js/libs/*.js',
-              '<%= appRoot %>/js/src/*.js']
-            }
-          }
-        }
-
-     });
-
-     require('load-grunt-tasks')(grunt);
-
-     grunt.registerTask('serve', ['connect', 'open', 'watch']);
-     grunt.registerTask('build', ['sass', 'uglify']);
-}
-</pre>
-
-</section>
-
-<section class="slide">
-
-  <h2>Hoe?</h2>
-  <h5 class="subtitle">3 Delen</h5>
-  <ol>
-    <li><code>package.json</code></li>
-    <li><code>GruntFile.js</code></li>
-    <li class="step"><code>node_modules/</code></li>
-  </ol>
-
-</section>
-
-<section class="slide">
-
-  <h2>node_modules/</h2>
-  <h5 class="subtitle">Map</h5>
-<pre class="step">
-node_modules/
-  grunt/
-  grunt-contrib-connect/
-  grunt-open/
-  grunt-contrib-sass/
-  grunt-contrib-watch/
-</pre>
-
-</section>
-
-<section class="slide">
-
-  <h2>Installatie</h2>
-  <h5 class="subtitle">Globaal op je PC</h5>
+<section class="slide about">
+  <header><h4>about:Koen Vendrik</h4></header>
   <ul>
-    <li class="step"><code><a href="http://nodejs.org/">Node</a></code><br><small>Voor NPM - http://nodejs.org/</small></li>
-    <li class="step"><code>Grunt-cli</code><br><small>Voor de grunt command - <code>npm install -g grunt-cli</code></small></li>
+    <li><a href="http://whitespell.com">Whitespell LLC</a><br><small><em>Co-Founder & Front-end developer</em></small></li>
+    <li><a href="http://envius.nl">Envius</a><br><small><em>Co-Founder & Front-end web developer</em></small></li>
   </ul>
 
+  <p>
+    <a href="http://twitter.com/kvendrik">@kvendrik</a><br>
+    <a href="http://kvendrik.com">kvendrik.com</a>
+  </p>
 </section>
 
 <section class="slide">
-
-  <h2>Het gebruikelijke</h2>
-  <h5 class="subtitle">Ons project</h5>
+  <header><h4>Agenda</h4></header>
   <ol>
-    <li class="step">De map - <code>cd ~/Desktop && mkdir presentatie-project && cd presentatie-project</code></li>
-    <li class="step">Package.json - <code>npm init</code></li>
-    <li class="step">GruntFile.js - <code>curl http://kvendrik.com/presentatie-grunt/GruntFile.js > GruntFile.js</code></li>
-    <li class="step">node_modules/ - <code>npm install</code></li>
+    <li>The problem</li>
+    <li>Web Workers...</li>
+      <ol>
+        <li>...are background processes</li>
+        <li>...how to use them</li>
+        <li>...lets use them</li>
+        <li>...some things to note</li>
+      </ol>
+    <li>Today</li>
+    <ol>
+      <li>Browser support</li>
+      <li>We need a fallback</li>
+      <li>Fixing our code</li>
+    </ol>
+    <li>Conclusion</li>
+    <li>What now?</li>
   </ol>
+</section>
+
+<section class="slide">
+  <header><h4>The problem</h4><a href="/examples/no-workers" target="_blank">View demo</a></header>
+
+<article class="column half">
+<pre class="language-markup"><code>&lt;div id="output">&lt;/div>
+&lt;button id="start">Generate random string&lt;/button>
+</code></pre>
+
+<article class="step">
+  <h5>What is happening here?</h5>
+  <ul>
+    <li class="step">JavaScript is just like humans <small>(single-threaded)</small></li>
+    <li class="step">Waits for code to finish</li>
+    <li class="step">Causes page to freeze</li>
+    <li class="step">Blocking code</li>
+  </ul>
+</article>
+
+<article class="step">
+  <h5>What we want</h5>
+  <ul>
+    <li>Background processes<br><small><em>Code runs in background while the user does other stuff</em></small></li>
+  </ul>
+</article>
+
+</article>
+
+<article class="column half">
+<pre><code class="language-javascript">var outputEl = document.getElementById('output'),
+    startBtn = document.getElementById('start'),
+    genRandStr = function(iterations){
+       var str = '';
+       for(var i = 0; i < iterations; i++){
+         //11 chars per iteration
+         str += Math.random().toString(36).substring(7);
+       }
+      return str;
+    };
+
+startBtn.addEventListener('click', function(){
+	genRandStr(6000000);
+  	outputEl.innerText = 'Done.';
+}, false);
+</code></pre>
+</article>
 
 </section>
 
 <section class="slide">
+  <header><h4>Web Workers...</h4></header>
+  <p>...are background processes</p>
+  <ul>
+    <li>Put code on different thread</li>
+    <li>So you have multiple threads running side-by-side <small>(background processes)</small></li>
+    <li>Which means no more page freezes</li>
+    <li class="step">Which is...<br><img src="http://25.media.tumblr.com/tumblr_m4qscmZt0y1r5kbkfo1_500.gif" /><br>yes, awesome</li>
+  </ul>
+</section>
 
-  <h2>Let's give it a shot</h2>
-  <h5 class="subtitle">Werken aan ons project</h5>
+<section class="slide">
+  <header><h4>Web Workers...</h4></header>
+  <p>...how to use them</p>
+
+<article class="column half">
+<pre><code class="language-javascript">var worker = new Worker('worker.js');</code></pre>
+
+<pre class="step"><code class="language-javascript">var blob = new Blob([String(myFunction)]),
+    blobURL = window.URL.createObjectURL(blob),
+    worker = new Worker(blobURL);
+</code></pre>
+</article>
+
+<article class="column half">
+<pre class="step"><code class="language-javascript">worker.postMessage('myString');
+//self or this on worker</code></pre>
+<pre class="step"><code class="language-javascript">self.addEventListener('message', function(e){
+  //do something with e.data
+}, false);
+</code></pre>
+<pre class="step"><code class="language-javascript">self.addEventListener('error', function(e){
+  //do something with e.lineno, e.filename and e.message
+}, false);
+</code></pre>
+</article>
+</section>
+
+<section class="slide">
+  <header><h4>Web Workers...</h4><a href="/examples/with-workers" target="_blank">View demo</a></header>
+  <p>...lets use them</p>
+<article class="column half">
+<pre class="language-markup"><code>&lt;div id="output">&lt;/div>
+&lt;button id="start">Generate random string&lt;/button>
+
+&lt;script>
+var outputEl = document.getElementById('output'),
+    startBtn = document.getElementById('start'),
+    worker = new Worker('worker.js');
+
+startBtn.addEventListener('click', function(){
+  worker.postMessage(6000000);
+  startBtn.setAttribute('disabled', '');
+  outputEl.innerText = 'Loading...';
+}, false);
+
+worker.addEventListener('message', function(e){
+  startBtn.removeAttribute('disabled');
+  outputEl.innerText = 'Done.';
+}, false);
+&lt;/script>
+</code></pre>
+</article>
+
+<article class="column half">
+<pre><code class="language-javascript">var genRandStr = function(iterations){
+       var str = '';
+       for(var i = 0; i < iterations; i++){
+         //11 chars per iteration
+         str += Math.random().toString(36).substring(7);
+       }
+      return str;
+    };
+
+self.addEventListener('message', function(e){
+  self.postMessage(genRandStr(e.data));
+}, false);
+</code></pre>
+</article>
+</section>
+
+<section class="slide">
+  <header><h4>Web Workers...</h4></header>
+  <p>...some things to note</p>
+  <ul>
+    <li>Both <code>self</code> and <code>this</code> reference the global scope</li>
+    <li>No access to:</li>
+    <ul>
+      <li><code>The DOM</code></li>
+      <li><code>window</code></li>
+      <li><code>document</code></li>
+      <li><code>parent</code></li>
+    </ul>
+    <li><code>importScripts</code></li>
+    <li><code>Worker</code></li>
+  </ul>
+</section>
+
+<section class="slide">
+  <header><h4>Today</h4></header>
+  <p>Browser support</p>
+  <img src="assets/img/web-workers-browser-support.png" />
+</section>
+
+<section class="slide big">
+  <p>IE and Android be like...</p>
+  <img src="http://i42.tinypic.com/8xpgti.jpg" />
+</section>
+
+<section class="slide">
+  <header><h4>Today</h4></header>
+  <p>We need a fallback</p>
+
+  <h5>What do we want?</h5>
   <ol>
-    <li class="step"><code>curl http://kvendrik.com/presentatie-grunt/grunt-voorbeeld.html > index.html</code></li>
-    <li class="step"><code>mkdir sass && mkdir css</code></li>
-    <li class="step"><code>cd sass && touch main.scss</code></li>
-    <li class="step"><code>grunt serve</code></li>
+    <li>When workers are not supported, execute code on the main thread</li>
+    <li class="step">No more external scripts</li>
+    <li class="step">No more dirty <code>&lt;script type="javascript/worker"></code> tags</li>
   </ol>
-
 </section>
 
-<section class="slide outro">
+<section class="slide">
+  <header><h4>Today</h4><a href="/examples/with-fallback" target="_blank">View demo</a></header>
+  <p>Fixing our code</p>
 
-  <h1>Grunt</h1>
-  <h2 class="subtitle">It's like magic!</h2>
-  <div class="logo"><img src="assets/img/grunt-logo.svg" /></div>
+  <article class="column half">
+    <pre class="language-javascript"><code>var worker = new FallReadyWorker({
+  worker: {
+    func: function(iterations){
+      var str = '';
+      for(var i = 0; i < iterations; i++){
+        //11 chars per iteration
+        str += Math.random().toString(36).substring(7);
+      }
+      return str;
+    },
+    getPostData: function(e){
+      return this.func(e.data);
+    }
+  },
+  onMessage: function(e){
+    startBtn.removeAttribute('disabled', '');
+    setTimeout(function(){
+      outputEl.innerText = 'Done.';
+    },10);
+  }
+});</code></pre>
+  </article>
+  <article class="column half">
+<pre class="language-javascript"><code>var outputEl = document.getElementById('output'),
+    startBtn = document.getElementById('start');
 
+startBtn.addEventListener('click', function(){
+  worker.say(6000000);
+  startBtn.setAttribute('disabled', '');
+  outputEl.innerText = 'Loading...';
+}, false);</code></pre>
+  </article>
 </section>
 
+<section class="slide">
+	<header><h4>Conclusion</h4></header>
+
+	<ul>
+    <li>We needed this</li>
+		<li>Fairly easy to use</li>
+		<li>Browser support</li>
+		<ul>
+			<li>Its widely supported already</li>
+			<li>We do however still need fallbacks<br><em>for IE and Android</em></li>
+			<li>Which requires quite some extra code</li>
+			<li>We re-use, but it's still extra code</li>
+		</ul>
+	</ul>
+</section>
+
+<section class="slide">
+	<header><h4>What now?</h4></header>
+
+	<ul>
+		<li><a href="http://www.html5rocks.com/en/tutorials/workers/basics/">html5rocks - The Basics of Web Workers</a></li>
+		<li><a href="https://developer.mozilla.org/en/docs/Web/Guide/Performance/Using_web_workers">Mozilla Developer Network - Using web workers</a></li>
+		<li>Experiment</li>
+	</ul>
+</section>
+
+<section class="slide big">
+<h1>May the Web Workers be with you</h1>
+<p>P.S. Questions?</p>
+</section>
+
+<footer class="footer">
+  Koen Vendrik - October 2014 | <a href="http://twitter.com/kvendrik">@kvendrik</a> | <a href="http://kvendrik.com">kvendrik.com</a>
+</footer>
+
+<script src="js/libs/prism/prism.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

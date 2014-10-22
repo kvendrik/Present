@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Worker Library</title>
+</head>
+<body>
+
+<button id="start">Generate random string</button>
+<div id="output"></div>
+
+<script src="fall-ready-worker.js"></script>
+<script>
+//Worker = undefined;
+var worker = new FallReadyWorker({
+  worker: {
+  	func: function(iterations){
+  		var str = '';
+  		for(var i = 0; i < iterations; i++){
+  		  //11 chars per iteration
+  		  str += Math.random().toString(36).substring(7);
+  		}
+  		return str;
+  	},
+    getPostData: function(e){
+      return this.func(e.data);
+    }
+  },
+  onMessage: function(e){
+    startBtn.removeAttribute('disabled', '');
+    setTimeout(function(){
+    	outputEl.innerText = 'Done.';
+    },10);
+  }
+});
+
+var outputEl = document.getElementById('output'),
+    startBtn = document.getElementById('start');
+
+startBtn.addEventListener('click', function(){
+  worker.say(6000000);
+  startBtn.setAttribute('disabled', '');
+  outputEl.innerText = 'Loading...';
+}, false);
+</script>
+</body>
+</html>

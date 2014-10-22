@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>No Workers</title>
+	<style>
+		#output {
+			max-width: 800px;
+			word-break: break-word;
+		}
+	</style>
+</head>
+<body>
+
+<button id="start">Generate random string</button>
+<div id="output"></textarea>
+
+<script>
+var outputEl = document.getElementById('output'),
+    startBtn = document.getElementById('start'),
+    genRandStr = function(iterations){
+       var str = '';
+       for(var i = 0; i < iterations; i++){
+         //5 chars per iteration
+         str += Math.random().toString(36).substring(7);
+       }
+      return str;
+    };
+
+startBtn.addEventListener('click', function(){
+	genRandStr(6000000);
+  	outputEl.innerText = 'Done.';
+}, false);
+</script>
+
+</body>
+</html>

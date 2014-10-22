@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>No Workers</title>
+  <style>
+    #output {
+      width: 800px;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+
+<button id="start">Generate random string</button>
+<div id="output"></div>
+
+<script>
+var outputEl = document.getElementById('output'),
+    startBtn = document.getElementById('start'),
+    worker = new Worker('worker.js');
+
+startBtn.addEventListener('click', function(){
+  worker.postMessage(6000000);
+  startBtn.setAttribute('disabled', '');
+  outputEl.innerText = 'Loading...';
+}, false);
+
+worker.addEventListener('message', function(e){
+  startBtn.removeAttribute('disabled');
+  outputEl.innerText = 'Done.';
+}, false);
+</script>
+
+</body>
+</html>
