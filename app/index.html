@@ -54,11 +54,15 @@
     <li>Conclusion</li>
     <li>What now?</li>
     <li>Challenge time!</li>
+    <ol>
+      <li>Steps</li>
+      <li>Requirements and Overview</li>
+    </ol>
   </ol>
 </section>
 
 <section class="slide">
-  <header><h4>The problem</h4><a href="/examples/no-workers" target="_blank">View demo</a></header>
+  <header><h4>The problem</h4><a href="examples/no-workers" target="_blank">View demo</a></header>
 
 <article class="column half">
 <pre class="language-markup"><code>&lt;div id="output">&lt;/div>
@@ -144,7 +148,7 @@ startBtn.addEventListener('click', function(){
 </section>
 
 <section class="slide">
-  <header><h4>Web Workers...</h4><a href="/examples/with-workers" target="_blank">View demo</a></header>
+  <header><h4>Web Workers...</h4><a href="examples/with-workers" target="_blank">View demo</a></header>
   <p>...lets use them</p>
 <article class="column half">
 <pre class="language-markup"><code>&lt;div id="output">&lt;/div>
@@ -190,7 +194,7 @@ self.addEventListener('message', function(e){
   <header><h4>Web Workers...</h4></header>
   <p>...some things to note</p>
   <ul>
-    <li>Both <code>self</code> and <code>this</code> reference the global scope</li>
+    <li>Both <code>self</code> and <code>this</code> reference the worker</li>
     <li>No access to:</li>
     <ul>
       <li><code>The DOM</code></li>
@@ -293,10 +297,9 @@ startBtn.addEventListener('click', function(){
 
 <section class="slide">
   <header><h4>Challenge time!</h4></header>
-  <p>Creating FallReadyWorker</p>
+  <p>Steps</p>
 
   <article class="column half">
-    <h5>Steps</h5>
     <ol>
       <li>Form groups<br><small><em>of 2+ people</em></small></li>
       <li>Decide on a group name<br><small><em>Come to me and I'll write it down</em></small></li>
