@@ -53,6 +53,7 @@
     </ol>
     <li>Conclusion</li>
     <li>What now?</li>
+    <li>Challenge time!</li>
   </ol>
 </section>
 
@@ -219,14 +220,14 @@ self.addEventListener('message', function(e){
 
   <h5>What do we want?</h5>
   <ol>
-    <li>When workers are not supported, execute code on the main thread</li>
+    <li>Fallback when workers are not supported</li>
     <li class="step">No more external scripts</li>
     <li class="step">No more dirty <code>&lt;script type="javascript/worker"></code> tags</li>
   </ol>
 </section>
 
 <section class="slide">
-  <header><h4>Today</h4><a href="/examples/with-fallback" target="_blank">View demo</a></header>
+  <header><h4>Today</h4></header>
   <p>Fixing our code</p>
 
   <article class="column half">
@@ -290,9 +291,70 @@ startBtn.addEventListener('click', function(){
 	</ul>
 </section>
 
+<section class="slide">
+  <header><h4>Challenge time!</h4></header>
+  <p>Creating FallReadyWorker</p>
+
+  <article class="column half">
+    <h5>Steps</h5>
+    <ol>
+      <li>Form groups<br><small><em>of 2+ people</em></small></li>
+      <li>Decide on a group name<br><small><em>Come to me and I'll write it down</em></small></li>
+      <li>Fork the repo<br><small><em>http://github.com/kvendrik/nijmegenjs-web-workers-challenge</em></small></li>
+      <li>Finish the class<br><small><em>in fall-ready-worker.js</em></small></li>
+      <li>Push code</small></li>
+      <li>Presentation<br><small><em>5 minute group presentation</em></small></li>
+    </ol>
+  </article>
+</section>
+
+<section class="slide">
+  <header><h4>Challenge time!</h4></header>
+  <p>Requirements & Overview</p>
+
+  <article class="column half">
+    <h5>Minimum Requirements</h5>
+    <ul>
+      <li>Needs to work with our application</li>
+      <li>Needs to also work when <code>Worker = undefined</code></li>
+        <ul>
+          <li>Execute code on main thread</li>
+          <li>Other solutions are also welcome!</li>
+        </ul>
+      <li>Constructor needs to accept:</li>
+        <ul>
+          <li>Function to put on worker</li>
+          <li>Function for message listener<br><small><em>Or to get data to post</em></small></li>
+          <li>Function for error listener</li>
+          <li>Function for message listener on page side</li>
+        </ul>
+      <li><code>say</code> method to post data to worker</li>
+    </ul>
+  </article>
+
+  <article class="column half step">
+    <h5>Usefull URLs</h5>
+    <ul>
+      <li>Presentation<br><small><em>http://kvendrik.com/presentation-web-workers</em></small></li>
+      <li>Challenge repository<br><small><em>http://github.com/kvendrik/nijmegenjs-web-workers-challenge</em></small></li>
+    </ul>
+
+    <h5>In Short</h5>
+    <ol>
+      <li>Form groups</li>
+      <li>Decide on a group name</li>
+      <li>Fork the repo</li>
+      <li>Finish the class</li>
+      <li>Push code</li>
+      <li>Presentation</li>
+    </ol>
+  </article>
+
+</section>
+
 <section class="slide big">
-<h1>May the Web Workers be with you</h1>
-<p>P.S. Questions?</p>
+  <h1>May the web workers be with you</h1>
+  <p>P.S. Questions?</p>
 </section>
 
 <footer class="footer">
