@@ -29,7 +29,7 @@
           if(!curr.hasClass('done')){
             //step found thats not done
             curr.addClass('done');
-            history.pushState([(slideIdx+1), (i+1)], 'Slide: '+(slideIdx+1), '#slide-'+(slideIdx+1)+'&step-'+(i+1));
+            if(history.pushState) history.pushState([(slideIdx+1), (i+1)], 'Slide: '+(slideIdx+1), '#slide-'+(slideIdx+1)+'&step-'+(i+1));
             return false;
           }
 
@@ -48,7 +48,7 @@
           if(curr.hasClass('done')){
             //step found thats done
             curr.removeClass('done');
-            history.pushState([(slideIdx+1), i], 'Slide: '+(slideIdx+1), '#slide-'+(slideIdx+1)+(i !== 0 ? '&step-'+i : ''));
+            if(history.pushState) history.pushState([(slideIdx+1), i], 'Slide: '+(slideIdx+1), '#slide-'+(slideIdx+1)+(i !== 0 ? '&step-'+i : ''));
             return false;
           }
 
@@ -66,7 +66,7 @@
         var nextSlideIdx = slides[currSlideIdx+1] !== undefined ? currSlideIdx+1 : 0;
 
         switchSlide(currSlideIdx, nextSlideIdx);
-        history.pushState([(nextSlideIdx+1), 0], 'Slide: '+(nextSlideIdx+1), '#slide-'+(nextSlideIdx+1));
+        if(history.pushState) history.pushState([(nextSlideIdx+1), 0], 'Slide: '+(nextSlideIdx+1), '#slide-'+(nextSlideIdx+1));
 
         return nextSlideIdx;
       },
@@ -75,7 +75,7 @@
         var prevSlideIdx = slides[currSlideIdx-1] !== undefined ? currSlideIdx-1 : slides.length-1;
 
         switchSlide(currSlideIdx, prevSlideIdx);
-        history.pushState([(prevSlideIdx+1), 0], 'Slide: '+(prevSlideIdx+1), '#slide-'+(prevSlideIdx+1));
+        if(history.pushState) history.pushState([(prevSlideIdx+1), 0], 'Slide: '+(prevSlideIdx+1), '#slide-'+(prevSlideIdx+1));
 
         return prevSlideIdx;
       },
