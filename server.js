@@ -4,6 +4,7 @@ var app = require('express')(),
 
 io.on('connection', function(socket){
   socket.on('change', function(idxs){
+    console.log(idxs);
     socket.broadcast.emit('change', idxs);
   });
 });

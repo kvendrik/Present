@@ -30,12 +30,12 @@
             //step found thats not done
             curr.addClass('done');
             if(history.pushState) history.pushState([(slideIdx+1), (i+1)], 'Slide: '+(slideIdx+1), '#slide-'+(slideIdx+1)+'&step-'+(i+1));
-            return false;
+            return { result: false, newStepIdx: i };
           }
 
         }
 
-        return true;
+        return { result: true };
       },
 
       checkPrevStep = function(slideIdx){
@@ -49,12 +49,12 @@
             //step found thats done
             curr.removeClass('done');
             if(history.pushState) history.pushState([(slideIdx+1), i], 'Slide: '+(slideIdx+1), '#slide-'+(slideIdx+1)+(i !== 0 ? '&step-'+i : ''));
-            return false;
+            return { result: false, newStepIdx: i-1 };
           }
 
         }
 
-        return true;
+        return { result: true };
       },
 
       switchSlide = function(currSlideIdx, newSlideIdx){
@@ -83,10 +83,31 @@
       goToState = function(slideIdx, stepIdx){
 
         switchSlide(currSlideIdx, slideIdx);
-        if(stepIdx !== undefined) makeStepsVisible(slideIdx, stepIdx);
+
+        if(stepIdx !== undefined && stepIdx !== null){
+          makeStepsVisible(slideIdx, stepIdx);
+        }
+
+        if(history.pushState){
+          history.pushState([(slideIdx+1), i], 'Slide: '+(slideIdx+1), '#slide-'+(slideIdx+1)+(stepIdx !== undefined && stepIdx !== null && stepIdx > -1 ? '&step-'+(stepIdx+1) : ''));
+        }
 
         currSlideIdx = slideIdx;
 
+      },
+      toNext = function(){
+        var checkStep = checkNextStep(currSlideIdx);
+        if(checkStep.result){
+          currSlideIdx = nextSlide(currSlideIdx);
+        }
+        socket.emit('change', [currSlideIdx, checkStep.newStepIdx]);
+      },
+      toPrev = function(){
+        var checkStep = checkPrevStep(currSlideIdx);
+        if(checkStep.result){
+          currSlideIdx = prevSlide(currSlideIdx);
+        }
+        socket.emit('change', [currSlideIdx, checkStep.newStepIdx]);
       };
 
   //if hash available
@@ -107,6 +128,15 @@
     B(slides[currSlideIdx]).addClass('visible');
   }
 
+  //init sockets
+  var socket = io(':3000');
+
+  //on change go to corresponding slide
+  //trigger change on every change made to slides
+  socket.on('change', function(idxs){
+    goToState(idxs[0], idxs[1]);
+  });
+
   //listen for back or forward button on browser
   window.addEventListener('popstate', function(e){
 
@@ -121,19 +151,13 @@
   });
 
   document.addEventListener('keyup', function(e){
-
     if(e.keyCode === 39 || e.keyCode === 32){
       //next (arrow or space)
-      if(checkNextStep(currSlideIdx)){
-        currSlideIdx = nextSlide(currSlideIdx);
-      }
+      toNext();
     } else if(e.keyCode === 37){
       //prev
-      if(checkPrevStep(currSlideIdx)){
-        currSlideIdx = prevSlide(currSlideIdx);
-      }
+      toPrev();
     }
-
   }, false);
 
 }());
