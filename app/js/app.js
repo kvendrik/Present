@@ -166,7 +166,11 @@ var parts=["source","protocol","authority","userInfo","user","password","host","
         return prevSlideIdx;
       },
 
-      goToState = function(slideIdx, stepIdx){
+      goToState = function(slideIdx, stepIdx, pushHistory){
+
+        if(pushHistory === undefined){
+          pushHistory = true;
+        }
 
         switchSlide(currSlideIdx, slideIdx);
 
@@ -174,7 +178,7 @@ var parts=["source","protocol","authority","userInfo","user","password","host","
           makeStepsVisible(slideIdx, stepIdx);
         }
 
-        if(history.pushState){
+        if(history.pushState && pushHistory){
           history.pushState([(slideIdx+1), i], 'Slide: '+(slideIdx+1), '#slide-'+(slideIdx+1)+(stepIdx !== undefined && stepIdx !== null && stepIdx > -1 ? '&step-'+(stepIdx+1) : ''));
         }
 
@@ -225,15 +229,19 @@ var parts=["source","protocol","authority","userInfo","user","password","host","
 
   //listen for back or forward button on browser
   window.addEventListener('popstate', function(e){
-
-    var state = e.state;
+    var state = e.state,
+        newSlideIdx,
+        newStepIdx;
 
     if(state !== null) {
-      goToState(state[0]-1, state[1]-1);
+      newSlideIdx = state[0]-1;
+      newStepIdx = state[1]-1;
     } else {
-      goToState(0,0);
+      newSlideIdx = newStepIdx = 0;
     }
 
+    goToState(newSlideIdx, newStepIdx, false);
+    socket.emit('change', [newSlideIdx, newStepIdx]);
   });
 
   document.addEventListener('keyup', function(e){
@@ -245,6 +253,8 @@ var parts=["source","protocol","authority","userInfo","user","password","host","
       toPrev();
     }
   }, false);
+
+  document.addEventListener('ontouchstart' in window ? 'touchstart' : 'click', toNext, false);
 
 }());
 
