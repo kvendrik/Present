@@ -71,5 +71,6 @@ module.exports = function (grunt){
      require('load-grunt-tasks')(grunt);
 
      grunt.registerTask('serve', ['connect', 'open', 'watch']);
+     grunt.registerTask('build:dev', ['sass', 'concat']);
      grunt.registerTask('build', ['sass', 'uglify']);
 }
