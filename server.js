@@ -5,7 +5,7 @@ var express = require('express'),
 
 var options = {},
     defaults = {
-        port: 3000
+        port: 1337
     };
 
 var extend = function(target) {
