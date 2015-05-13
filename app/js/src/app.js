@@ -1,4 +1,4 @@
-(function(){
+(function(io){
 
     var present = {
 
@@ -64,7 +64,7 @@
 
         _initSockets: function(){
             //init sockets
-            var socket = this._socket = io(':3000');
+            var socket = this._socket = io();
 
             //on change go to corresponding slide
             //trigger change on every change made to slides
@@ -206,4 +206,4 @@
 
     present.init();
 
-}());
+}(io));
