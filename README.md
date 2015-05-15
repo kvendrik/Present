@@ -7,7 +7,7 @@ Present
 2. Run `grunt serve` to start a server on `127.0.0.1:9000`
 3. Start customizing the slides' markup in `index.html` and modifing the styling of the theme and slides in `theme.scss` and `slides.scss`
 
-### Presenting
+#### Presenting
 Present can mirror your presentation on multiple clients. To use this feature start the Node server using `node server.js --port=3000`. This will start a server that serves your presentation on the given port number.
 
 #### Dev Dependencies
