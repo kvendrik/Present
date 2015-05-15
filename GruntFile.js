@@ -4,7 +4,10 @@ module.exports = function (grunt){
 
         pkg: grunt.file.readJSON('package.json'),
 
-        appRoot: 'app',
+        paths: {
+            public: 'public',
+            dev: 'dev'
+        },
 
 		connect: {
 			server: {
@@ -12,14 +15,8 @@ module.exports = function (grunt){
 					livereload: true,
 					hostname: '0.0.0.0',
 					port: 9000,
-					base: '<%= appRoot %>/'
+					base: '<%= paths.public %>/'
 				}
-			}
-		},
-
-		open: {
-			all: {
-				path: 'http://localhost:<%= connect.server.options.port %>'
 			}
 		},
 
@@ -27,41 +24,69 @@ module.exports = function (grunt){
 			options: {
 			    livereload: true,
 			},
-		  	html: {
-				files: ['<%= appRoot %>/*.html']
+		  	ejs: {
+				files: ['<%= paths.dev %>/ejs/**/*.ejs'],
+                tasks: ['ejs']
 		  	},
 		  	js: {
-		  		files: ['<%= appRoot %>/js/src/*.js'],
+		  		files: ['<%= paths.dev %>/js/**/*.js'],
 		  		tasks: ['concat']
 		  	},
 		  	sass: {
-		  		files: ['<%= appRoot %>/sass/*.scss'],
-		  		tasks: ['sass']
+		  		files: ['<%= paths.dev %>/sass/**/*.scss'],
+		  		tasks: ['build:scss']
 		  	}
 		},
 
+        ejs: {
+            all: {
+                src: ['index.ejs'],
+                cwd: '<%= paths.dev %>/ejs/',
+                dest: '<%= paths.public %>/',
+                expand: true,
+                ext: '.html',
+                options: {}
+            }
+        },
+
 		sass: {
+            options: {
+                style: 'compressed',
+                sourcemap: 'none'
+            },
 			dist: {
 			  files: {
-			    '<%= appRoot %>/css/main.css': '<%= appRoot %>/sass/main.scss'
+			    '<%= paths.public %>/css/main.css': '<%= paths.dev %>/sass/main.scss'
 			  }
 			}
 		},
+
+        autoprefixer: {
+            options: {
+                expand: true,
+                flatten: true,
+                browsers: ['last 20 versions', 'ie 8', 'ie 9'],
+            },
+            all: {
+                src: '<%= paths.public %>/css/main.css',
+                dest: '<%= paths.public %>/css/main.css'
+            }
+        },
 
 		concat: {
 			options: {
 			  separator: '\n\n',
 			},
 			js: {
-			  src: ['<%= appRoot %>/fonts/ss-pika/ss-pika.js', '<%= appRoot %>/js/libs/*.js', '<%= appRoot %>/js/src/*.js'],
-			  dest: '<%= appRoot %>/js/app.js'
+			  src: ['<%= paths.dev %>/js/_present/vendor/**/*.js', '<%= paths.dev %>/js/_present/app.js', '<%= paths.dev %>/js/**/*.js'],
+			  dest: '<%= paths.public %>/js/main.js'
 			}
 		},
 
 		uglify: {
 			js: {
 			  files: {
-			    '<%= appRoot %>/js/app.min.js': ['<%= appRoot %>/fonts/ss-pika/ss-pika.js', '<%= appRoot %>/js/libs/*.js', '<%= appRoot %>/js/src/*.js']
+			    '<%= paths.public %>/js/main.min.js': ['<%= paths.dev %>/js/_present/vendor/**/*.js', '<%= paths.dev %>/js/_present/app.js', '<%= paths.dev %>/js/**/*.js']
 			  }
 			}
 		}
@@ -70,7 +95,9 @@ module.exports = function (grunt){
 
      require('load-grunt-tasks')(grunt);
 
-     grunt.registerTask('serve', ['connect', 'open', 'watch']);
-     grunt.registerTask('build:dev', ['sass', 'concat']);
-     grunt.registerTask('build', ['sass', 'uglify']);
+     grunt.registerTask('default', ['connect', 'watch']);
+
+     grunt.registerTask('build:scss', ['sass', 'autoprefixer']);
+     grunt.registerTask('build:dev', ['ejs', 'build:scss', 'concat']);
+     grunt.registerTask('build', ['ejs', 'build:scss', 'uglify']);
 }

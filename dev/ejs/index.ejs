@@ -1,0 +1,347 @@
+<% layout('layout') -%>
+
+<section class="slide intro">
+  <h3>A brief introduction to</h3>
+  <h1>Web Workers</h1>
+</section>
+
+<section class="slide about">
+  <header><h4>about:Koen Vendrik</h4></header>
+  <ul>
+    <li><a href="http://whitespell.com">Whitespell LLC</a><br><small><em>Co-Founder & Front-end developer</em></small></li>
+    <li><a href="http://envius.nl">Envius</a><br><small><em>Co-Founder & Front-end web developer</em></small></li>
+  </ul>
+
+  <p>
+    <a href="http://twitter.com/kvendrik">@kvendrik</a><br>
+    <a href="http://kvendrik.com">kvendrik.com</a>
+  </p>
+</section>
+
+<section class="slide">
+  <header><h4>Agenda</h4></header>
+  <ol>
+    <li>The problem</li>
+    <li>Web Workers...</li>
+      <ol>
+        <li>...are background processes</li>
+        <li>...how to use them</li>
+        <li>...lets use them</li>
+        <li>...some things to note</li>
+      </ol>
+    <li>Today</li>
+    <ol>
+      <li>Browser support</li>
+      <li>We need a fallback</li>
+      <li>Fixing our code</li>
+    </ol>
+    <li>Conclusion</li>
+    <li>What now?</li>
+    <li>Challenge time!</li>
+    <ol>
+      <li>Steps</li>
+      <li>Requirements and Overview</li>
+    </ol>
+  </ol>
+</section>
+
+<section class="slide">
+  <header><h4>The problem</h4><a href="examples/no-workers" target="_blank">View demo</a></header>
+
+<article class="column half">
+<pre class="language-markup"><code>&lt;div id="output">&lt;/div>
+&lt;button id="start">Generate random string&lt;/button>
+</code></pre>
+
+<article class="step">
+  <h5>What is happening here?</h5>
+  <ul>
+    <li class="step">JavaScript is just like humans <small>(single-threaded)</small></li>
+    <li class="step">Waits for code to finish</li>
+    <li class="step">Causes page to freeze</li>
+    <li class="step">Blocking code</li>
+  </ul>
+</article>
+
+<article class="step">
+  <h5>What we want</h5>
+  <ul>
+    <li>Background processes<br><small><em>Code runs in background while the user does other stuff</em></small></li>
+  </ul>
+</article>
+
+</article>
+
+<article class="column half">
+<pre><code class="language-javascript">var outputEl = document.getElementById('output'),
+    startBtn = document.getElementById('start'),
+    genRandStr = function(iterations){
+       var str = '';
+       for(var i = 0; i < iterations; i++){
+         //11 chars per iteration
+         str += Math.random().toString(36).substring(7);
+       }
+      return str;
+    };
+
+startBtn.addEventListener('click', function(){
+    genRandStr(6000000);
+    outputEl.innerText = 'Done.';
+}, false);
+</code></pre>
+</article>
+
+</section>
+
+<section class="slide">
+  <header><h4>Web Workers...</h4></header>
+  <p>...are background processes</p>
+  <ul>
+    <li>Put code on different thread</li>
+    <li>So you have multiple threads running side-by-side <small>(background processes)</small></li>
+    <li>Which means no more page freezes</li>
+    <li class="step">Which is...<br><img src="http://25.media.tumblr.com/tumblr_m4qscmZt0y1r5kbkfo1_500.gif" /><br>yes, awesome</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <header><h4>Web Workers...</h4></header>
+  <p>...how to use them</p>
+
+<article class="column half">
+<pre><code class="language-javascript">var worker = new Worker('worker.js');</code></pre>
+
+<pre class="step"><code class="language-javascript">var blob = new Blob([String(myFunction)]),
+    blobURL = window.URL.createObjectURL(blob),
+    worker = new Worker(blobURL);
+</code></pre>
+</article>
+
+<article class="column half">
+<pre class="step"><code class="language-javascript">worker.postMessage('myString');
+//self or this on worker</code></pre>
+<pre class="step"><code class="language-javascript">self.addEventListener('message', function(e){
+  //do something with e.data
+}, false);
+</code></pre>
+<pre class="step"><code class="language-javascript">self.addEventListener('error', function(e){
+  //do something with e.lineno, e.filename and e.message
+}, false);
+</code></pre>
+</article>
+</section>
+
+<section class="slide">
+  <header><h4>Web Workers...</h4><a href="examples/with-workers" target="_blank">View demo</a></header>
+  <p>...lets use them</p>
+<article class="column half">
+<pre class="language-markup"><code>&lt;div id="output">&lt;/div>
+&lt;button id="start">Generate random string&lt;/button>
+
+&lt;script>
+var outputEl = document.getElementById('output'),
+    startBtn = document.getElementById('start'),
+    worker = new Worker('worker.js');
+
+startBtn.addEventListener('click', function(){
+  worker.postMessage(6000000);
+  startBtn.setAttribute('disabled', '');
+  outputEl.innerText = 'Loading...';
+}, false);
+
+worker.addEventListener('message', function(e){
+  startBtn.removeAttribute('disabled');
+  outputEl.innerText = 'Done.';
+}, false);
+&lt;/script>
+</code></pre>
+</article>
+
+<article class="column half">
+<pre><code class="language-javascript">var genRandStr = function(iterations){
+       var str = '';
+       for(var i = 0; i < iterations; i++){
+         //11 chars per iteration
+         str += Math.random().toString(36).substring(7);
+       }
+      return str;
+    };
+
+self.addEventListener('message', function(e){
+  self.postMessage(genRandStr(e.data));
+}, false);
+</code></pre>
+</article>
+</section>
+
+<section class="slide">
+  <header><h4>Web Workers...</h4></header>
+  <p>...some things to note</p>
+  <ul>
+    <li>Both <code>self</code> and <code>this</code> reference the worker</li>
+    <li>No access to:</li>
+    <ul>
+      <li><code>The DOM</code></li>
+      <li><code>window</code></li>
+      <li><code>document</code></li>
+      <li><code>parent</code></li>
+    </ul>
+    <li><code>importScripts</code></li>
+    <li><code>Worker</code></li>
+  </ul>
+</section>
+
+<section class="slide">
+  <header><h4>Today</h4></header>
+  <p>Browser support</p>
+  <img src="assets/img/web-workers-browser-support.png" />
+</section>
+
+<section class="slide big">
+  <p>IE and Android be like...</p>
+  <img src="http://i42.tinypic.com/8xpgti.jpg" />
+</section>
+
+<section class="slide">
+  <header><h4>Today</h4></header>
+  <p>We need a fallback</p>
+
+  <h5>What do we want?</h5>
+  <ol>
+    <li>Fallback when workers are not supported</li>
+    <li class="step">No more external scripts</li>
+    <li class="step">No more dirty <code>&lt;script type="javascript/worker"></code> tags</li>
+  </ol>
+</section>
+
+<section class="slide">
+  <header><h4>Today</h4></header>
+  <p>Fixing our code</p>
+
+  <article class="column half">
+    <pre class="language-javascript"><code>var worker = new FallReadyWorker({
+  worker: {
+    func: function(iterations){
+      var str = '';
+      for(var i = 0; i < iterations; i++){
+        //11 chars per iteration
+        str += Math.random().toString(36).substring(7);
+      }
+      return str;
+    },
+    getPostData: function(e){
+      return this.func(e.data);
+    }
+  },
+  onMessage: function(e){
+    startBtn.removeAttribute('disabled', '');
+    setTimeout(function(){
+      outputEl.innerText = 'Done.';
+    },10);
+  }
+});</code></pre>
+  </article>
+  <article class="column half">
+<pre class="language-javascript"><code>var outputEl = document.getElementById('output'),
+    startBtn = document.getElementById('start');
+
+startBtn.addEventListener('click', function(){
+  worker.say(6000000);
+  startBtn.setAttribute('disabled', '');
+  outputEl.innerText = 'Loading...';
+}, false);</code></pre>
+  </article>
+</section>
+
+<section class="slide">
+    <header><h4>Conclusion</h4></header>
+
+    <ul>
+    <li>We needed this</li>
+        <li>Fairly easy to use</li>
+        <li>Browser support</li>
+        <ul>
+            <li>Its widely supported already</li>
+            <li>We do however still need fallbacks<br><em>for IE and Android</em></li>
+            <li>Which requires quite some extra code</li>
+            <li>We re-use, but it's still extra code</li>
+        </ul>
+    </ul>
+</section>
+
+<section class="slide">
+    <header><h4>What now?</h4></header>
+
+    <ul>
+        <li><a href="http://www.html5rocks.com/en/tutorials/workers/basics/">html5rocks - The Basics of Web Workers</a></li>
+        <li><a href="https://developer.mozilla.org/en/docs/Web/Guide/Performance/Using_web_workers">Mozilla Developer Network - Using web workers</a></li>
+        <li>Experiment</li>
+    </ul>
+</section>
+
+<section class="slide">
+  <header><h4>Challenge time!</h4></header>
+  <p>Steps</p>
+
+  <article class="column half">
+    <ol>
+      <li>Form groups<br><small><em>of 2+ people</em></small></li>
+      <li>Decide on a group name<br><small><em>Come to me and I'll write it down</em></small></li>
+      <li>Fork the repo<br><small><em>http://github.com/kvendrik/nijmegenjs-web-workers-challenge</em></small></li>
+      <li>Finish the class<br><small><em>in fall-ready-worker.js</em></small></li>
+      <li>Push code</small></li>
+      <li>Presentation<br><small><em>5 minute group presentation</em></small></li>
+    </ol>
+  </article>
+</section>
+
+<section class="slide">
+  <header><h4>Challenge time!</h4></header>
+  <p>Requirements & Overview</p>
+
+  <article class="column half">
+    <h5>Minimum Requirements</h5>
+    <ul>
+      <li>Needs to work with our application</li>
+      <li>Needs to also work when <code>Worker = undefined</code></li>
+        <ul>
+          <li>Execute code on main thread</li>
+          <li>Other solutions are also welcome!</li>
+        </ul>
+      <li>Constructor needs to accept:</li>
+        <ul>
+          <li>Function to put on worker</li>
+          <li>Function for message listener<br><small><em>Or to get data to post</em></small></li>
+          <li>Function for error listener</li>
+          <li>Function for message listener on page side</li>
+        </ul>
+      <li><code>say</code> method to post data to worker</li>
+    </ul>
+  </article>
+
+  <article class="column half step">
+    <h5>Usefull URLs</h5>
+    <ul>
+      <li>Presentation<br><small><em>http://kvendrik.com/presentation-web-workers</em></small></li>
+      <li>Challenge repository<br><small><em>http://github.com/kvendrik/nijmegenjs-web-workers-challenge</em></small></li>
+    </ul>
+
+    <h5>In Short</h5>
+    <ol>
+      <li>Form groups</li>
+      <li>Decide on a group name</li>
+      <li>Fork the repo</li>
+      <li>Finish the class</li>
+      <li>Push code</li>
+      <li>Presentation</li>
+    </ol>
+  </article>
+
+</section>
+
+<section class="slide big">
+  <h1>May the web workers be with you</h1>
+  <p>P.S. Questions?</p>
+</section>
+
+

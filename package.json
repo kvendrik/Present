@@ -14,7 +14,8 @@
     "grunt-contrib-sass": "~0.7.3",
     "grunt-contrib-uglify": "~0.4.0",
     "grunt-contrib-watch": "~0.6.1",
-    "grunt-open": "~0.2.3",
+    "grunt-autoprefixer": "^2.2.0",
+    "grunt-ejs-locals": "^0.1.1",
     "load-grunt-tasks": "~0.4.0"
   },
   "scripts": {

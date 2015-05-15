@@ -49,7 +49,7 @@ io.on('connection', function(socket){
 });
 
 //serve static files on req
-app.use('/', express.static(__dirname+'/app'));
+app.use('/', express.static(__dirname+'/public'));
 
 //listen on port
 http.listen(options.port, function() {
